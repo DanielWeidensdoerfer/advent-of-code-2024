@@ -1,21 +1,41 @@
+import kotlin.math.abs
+
 fun main() {
-    fun part1(input: List<String>): Int {
-        return input.size
+    readInput("Day01_test").run {
+        println(part1() == 11)
+        println(part2() == 31)
     }
-
-    fun part2(input: List<String>): Int {
-        return input.size
+    readInput("Day01").run {
+        part1().println()
+        part2().println()
     }
+}
 
-    // Test if implementation meets criteria from the description, like:
-    check(part1(listOf("test_input")) == 1)
+private val spaces = Regex(" +")
 
-    // Or read a large test input from the `src/Day01_test.txt` file:
-    val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
+private fun List<String>.part1(): Int {
+    val numPairs = map { line ->
+        val nums = line.split(spaces).map { it.toInt() }
+        nums[0] to nums[1]
+    }
+    val firstList = numPairs.map { it.first }.sorted()
+    val secondList = numPairs.map { it.second }.sorted()
+    val distsSum = firstList.zip(secondList).sumOf { (first, second) ->
+        abs(first - second)
+    }
+    return distsSum
+}
 
-    // Read the input from the `src/Day01.txt` file.
-    val input = readInput("Day01")
-    part1(input).println()
-    part2(input).println()
+private fun List<String>.part2(): Int {
+    val numPairs = map { line ->
+        val nums = line.split(spaces).map { it.toInt() }
+        nums[0] to nums[1]
+    }
+    val firstList = numPairs.map { it.first }.sorted()
+    val secondList = numPairs.map { it.second }.sorted()
+    val occurencesSum = firstList.sumOf { firstNum ->
+        val occurences = secondList.count { secondNum -> firstNum == secondNum  }
+        firstNum * occurences
+    }
+    return occurencesSum
 }
