@@ -11,6 +11,7 @@ fun main() {
     }
 }
 
+
 private fun List<String>.part1() = count { line ->
     val levels = line.split(" ").map { it.toInt() }
     levels.isSafe()
